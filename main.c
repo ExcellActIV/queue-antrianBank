@@ -3,33 +3,70 @@
 
 int main()
 {
-    // Program simulasi antrian di bank
     Queue Q;
     CreateQueue(&Q);
 
-    infotype jumlah_antrian, num;
+    infotype num;
     address newNode;
+    int choice;
+    int current_number = 0;
 
-    printf("Masukkan jumlah orang yang ingin mengantri: ");
-    scanf("%d", &jumlah_antrian);
-
-    // Sebanyak jumlah_antrian orang mengantri
-    for (int i = 1; i <= jumlah_antrian; i++)
+    do
     {
-        allocate(&newNode, i);
-        enqueue(&Q, newNode);
-    }
-    printQueue(Q);
+        printf("\n--- Antrian Bank ---\n");
+        printf("1. Ambil Antrian\n");
+        printf("2. Proses Antrian\n");
+        printf("3. Cetak Antrian\n");
+        printf("4. Keluar\n");
+        printf("Pilihan: ");
+        scanf("%d", &choice);
 
-    // Orang pertama keluar dari antrian
-    dequeue(&Q, &num);
-    printQueue(Q);
+        switch (choice)
+        {
+        case 1:
+            current_number++;
+            allocate(&newNode, current_number);
+            enqueue(&Q, newNode);
+            printf("Anda mendapat nomor antrian: %d\n", current_number);
+            printf("Antrian sekarang:\n");
+            printQueue(Q);
+            break;
 
-    // Orang kedua keluar dari antrian
-    dequeue(&Q, &num);
-    printQueue(Q);
+        case 2:
+            if (!isEmptyQueue(Q))
+            {
+                dequeue(&Q, &num);
+                printf("Memproses nomor antrian: %d\n", num);
+                printf("Antrian sekarang:\n");
+                printQueue(Q);
+            }
+            else
+            {
+                printf("Antrian kosong!\n");
+            }
+            break;
+
+        case 3:
+            if (!isEmptyQueue(Q))
+            {
+                printf("Antrian sekarang:\n");
+                printQueue(Q);
+            }
+            else
+            {
+                printf("Antrian kosong!\n");
+            }
+            break;
+
+        case 4:
+            printf("Program selesai\n");
+            break;
+
+        default:
+            printf("Pilihan tidak valid!\n");
+        }
+    } while (choice != 4);
 
     deleteQueue(&Q);
-
     return 0;
 }
